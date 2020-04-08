@@ -155,8 +155,19 @@ namespace CourseLibrary.API.Services
         {
             if (disposing)
             {
-               // dispose resources when needed
+                // dispose resources when needed
             }
+        }
+        public IEnumerable<Author> GetAllAuthor(string mainCategory)
+        {
+
+            if (string.IsNullOrEmpty(mainCategory)) {
+
+                return GetAuthors();
+            }
+            mainCategory = mainCategory.Trim();
+            return _context.Authors.Where(a => a.MainCategory == mainCategory).ToList();
+
         }
     }
 }

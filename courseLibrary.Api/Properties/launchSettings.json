@@ -14,7 +14,8 @@
       "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:58180/"
     },
     "courseLibrary.Api": {
       "commandName": "Project",
