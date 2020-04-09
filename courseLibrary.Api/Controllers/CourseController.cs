@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CourseLibrary.Api.Helpers;
 using CourseLibrary.Api.Models;
+using CourseLibrary.API.Entities;
 using CourseLibrary.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -43,8 +44,8 @@ namespace CourseLibrary.Api.Controllers
 
         }
 
-        [HttpGet("{courseId}")]
-       
+        [HttpGet("{courseId}", Name = "GetCourse")]
+
 
 
         public ActionResult<CourseDto> GetSpasifcCousre(Guid authorId, Guid CourseId)
@@ -66,6 +67,33 @@ namespace CourseLibrary.Api.Controllers
 
             }
             return Ok(_map.Map<CourseDto>(spasifcCouse));
+
+
+        }
+        [HttpPost]
+       
+        public ActionResult<CourseDto> ADDNewCourse(Guid authorid, courseforCreation courseforCreation) {
+
+
+            if (!_repo.AuthorExists(authorid)) {
+
+                return NotFound();
+            
+            }
+
+            var courseEntity = _map.Map<Course>(courseforCreation);
+            _repo.AddCourse(authorid, courseEntity);
+            _repo.Save();
+
+            var courseToReturn = _map.Map<CourseDto>(courseEntity);
+            return CreatedAtRoute("GetCourse", new
+            {
+
+                AuthorId = authorid, courseId =courseToReturn.Id 
+
+
+            },courseToReturn); ;
+
 
 
         }
